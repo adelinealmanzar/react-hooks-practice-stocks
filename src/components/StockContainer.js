@@ -1,11 +1,21 @@
 import React from "react";
 import Stock from "./Stock";
 
-function StockContainer() {
+function StockContainer({ stocksArr, getClickedStockAndSet }) {
+
   return (
     <div>
       <h2>Stocks</h2>
-      {/* render stock list here*/}
+      {stocksArr.map(stock => {
+        return (
+          <Stock
+            key={stock.name}
+            stock={stock}
+            getClickedStockAndSet={getClickedStockAndSet}
+            action='add'
+          />
+        )
+      })}
     </div>
   );
 }
