@@ -20,15 +20,40 @@ function MainContainer() {
   }
 
   function deleteClickedStockAndSet(stockToDel) {
-    // const portfolioArrAfterDel = portfolioStocks.filter(portfolio => portfolio.id !== stockToDel.id)
-    // console.log(portfolioArrAfterDel)
-    console.log(stockToDel)
+    console.log(portfolioStocks)
+    const portfolioArrAfterDel = portfolioStocks.filter(portfolio => portfolio.id !== stockToDel.id)
+    setPortfolioStocks(portfolioArrAfterDel)
   }
 
+  
+
+  function handleAlphabeticSort(alphChecked) {
+    const sortedStocksArr = stocksArr.sort((a, b) => {
+      if (a.name.toUpperCase() < b.name.toUpperCase()) {
+          return -1
+        } else if (a.name.toUpperCase() > b.name.toUpperCase()) {
+          return 1
+        }
+        return 0
+      }
+    )
+    console.log(sortedStocksArr)
+    if (alphChecked === true) {
+      setStocksArr(sortedStocksArr)
+    } else { // left off: displaying unsoted arr back to the dom if false
+      useEffect(() => {
+        fetch('http://localhost:3001/stocks')
+          .then(r => r.json())
+          .then(unsortedArr => setStocksArr(unsortedArr)) 
+      })
+    }
+  }
+
+  console.log(stocksArr)
 
   return (
     <div>
-      <SearchBar />
+      <SearchBar handleAlphabeticSort={handleAlphabeticSort}/>
       <div className="row">
         <div className="col-8">
           <StockContainer stocksArr={stocksArr} getClickedStockAndSet={getClickedStockAndSet}/>
@@ -42,3 +67,9 @@ function MainContainer() {
 }
 
 export default MainContainer;
+
+
+/*
+Sort alphabetically by ticket name
+Sort by ascending price
+*/
